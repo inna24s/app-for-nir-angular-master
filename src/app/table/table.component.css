@@ -1,0 +1,17 @@
+.col-md-6 {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.table--padding {
+  padding-bottom: 20px;
+}
+
+.btn-primary {
+  height: 40px;
+}
+
+.clear__btn {
+  background-color: bisque;
+}
