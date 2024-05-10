@@ -14,69 +14,54 @@ export class TableComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'weight', 'symbol'];
 
-  symbols = ['H', 'He', 'Be', 'Li', 'B', 'C', 'N', 'O', 'F', 'Ne'];
-  weights = [1.0079, 4.0026, 6.941, 9.0122, 10.811, 12.0107, 14.0067, 15.9994, 18.9984, 20.1797];
-
   constructor(private clientService: ClientService) {}
 
   async ngOnInit() {
     await this.getBigTable(20);
   }
 
-  _random(max: number) {
-    return Math.round(Math.random() * 1000) % max;
-  }
-
-  async getBigTable(count?: number) {
+  async getBigTable(count: number) {
     await this.clientService.getBigTable(count).then(res => {
       this.loading = false;
       if (res.length) this.data = res;
     });
   }
 
-  run() {
-    this.data = this.buildData();
+  async add() {
+    await this.clientService.addData(1000).then(res => {
+      if (res.length) this.data = res;
+    });
   }
 
-  buildData(count: number = 1000): PeriodicElement[] {
-    const data: PeriodicElement[] = [];
-    for (let i = 0; i < count; i++) {
-      data[i]={position: i, weight: this.weights[this._random(this.weights.length)], symbol: this.symbols[this._random(this.symbols.length)] };
-    }
-    return data;
+  async update(all: string) {
+    await this.clientService.updateRow(all).then(res => {
+      if (res.length) this.data = res;
+    });
   }
 
-  add() {
-    this.data = this.data.concat(this.buildData(1000));
-  }
-
-  update() {
-    for (let i = 0; i < this.data.length; i += 5) {
-      this.data[i].symbol += ' aaa';
-    }
-  }
-
-  updateAll() {
-    for (let i = 0; i < this.data.length; i++) {
-      this.data[i].symbol += ' !!!';
-    }
-  }
-  runLots() {
-    this.data = this.buildData(10000);
-  }
   clear() {
-    this.data = [];
+    this.clientService.clear().then(() => {
+      this.data = [];
+    });
   }
   swapRows() {
-    const a = [...this.data];
-    if (this.data.length > 998) {
-      const b = a[1];
-      a[1] = a[998];
-      a[998] = b;
-    }
+    const b = this.data[1];
+    this.data[1] = this.data[this.data.length - 1];
+    this.data[this.data.length - 1] = b;
     this.data = [
       ...this.data,
 
     ];
+  }
+
+  createEl(el: {
+    symbol: string,
+    weight: string,
+  }) {
+    this.data = [...this.data, {
+      position: this.data.length + 1,
+      symbol: el.symbol,
+      weight: el.weight
+    }];
   }
 }

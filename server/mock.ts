@@ -1,5 +1,5 @@
 export interface PeriodicElement {
   position: number;
-  weight: number;
+  weight: string;
   symbol: string;
 }

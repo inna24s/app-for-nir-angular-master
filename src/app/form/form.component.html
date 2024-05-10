@@ -2,15 +2,24 @@
   <div>
     Symbol
     <mat-form-field appearance="outline">
-      <input matInput class="inp--padding"/>
+      <input matInput class="inp--padding" aria-labelledby="symbol" [(ngModel)]="form.symbol"/>
     </mat-form-field>
   </div>
   <div>
     Weight
     <mat-form-field appearance="outline">
-      <input matInput class="inp--padding"/>
+      <input matInput class="inp--padding" aria-labelledby="weight" [(ngModel)]="form.weight"/>
     </mat-form-field>
   </div>
-  <button mat-stroked-button> Send </button>
+  <div class="send">
+    <button
+      mat-stroked-button class="send__btn"
+      [ngClass]="{'disabled': !form.symbol || !form.weight}"
+      [disabled]="!form.symbol || !form.weight"
+      (click)="send()"
+    >
+      Send
+    </button>
+  </div>
 </div>
 

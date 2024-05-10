@@ -1,6 +1,11 @@
-const express = require('express');
+const express = require("express");
+const bodyParser = require("body-parser");
 const compression = require('compression');
+
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(compression());
 
 const ELEMENT_DATA = [
   {position: 1,  weight: 1.0079, symbol: 'H'},
@@ -408,6 +413,7 @@ const ELEMENT_DATA = [
 const symbols = ['H', 'He', 'Be', 'Li', 'B', 'C', 'N', 'O', 'F', 'Ne'];
 const weights = [1.0079, 4.0026, 6.941, 9.0122, 10.811, 12.0107, 14.0067, 15.9994, 18.9984, 20.1797];
 
+let showCount = 0;
 // handling CORS
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin",
@@ -416,24 +422,62 @@ app.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.use(compression());
-app.get('/getTable', (req, res) => {
-  const { count } = req.query;
-  if (count > ELEMENT_DATA.length) {
-    const expArray = buildData(ELEMENT_DATA.length - count);
-    ELEMENT_DATA.push(...expArray);
-  }
-  res.json(ELEMENT_DATA.slice(count));
-});
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
 });
 
+app.get('/getTable', (req, res) => {
+  const { count } = req.query;
+  if (count > ELEMENT_DATA.length) {
+    const expArray = buildData(count);
+    ELEMENT_DATA.push(...expArray);
+  }
+  showCount = Number(count);
+  res.send(ELEMENT_DATA.slice(0, count));
+});
+
+app.get('/add', (req, res) => {
+  const { count } = req.query;
+  showCount += Number(count);
+  if (showCount > ELEMENT_DATA.length) {
+    const expArray = buildData(showCount);
+    ELEMENT_DATA.push(...expArray);
+  }
+  res.send(ELEMENT_DATA.slice(0, showCount));
+});
+
+app.post('/updateRow', (req, res) => {
+  const { all } = req.body;
+  for (let i = 0; i < showCount; i += all==="5" ? 5 : 1) {
+    ELEMENT_DATA[i].symbol += ' !!!'
+  }
+  res.send(ELEMENT_DATA.slice(0, showCount));
+});
+
+app.post('/clear', (req, res) => {
+  for (let i = 0; i < showCount; i ++) {
+    if (ELEMENT_DATA[i].symbol.includes(' !!!'))
+      ELEMENT_DATA[i].symbol = ELEMENT_DATA[i].symbol.replace(' !!!', "");
+  }
+  showCount = 0;
+  res.send(true);
+});
+
+app.post('/createElement', (req, res) => {
+  const { symbol, weight } = req.body;
+  ELEMENT_DATA[showCount + 1] = {
+    position: showCount + 2,
+    symbol: symbol,
+    weight: weight
+  }
+  res.send(true);
+});
+
 const buildData = (count = 1000) => {
-  const data = [];
-  for (let i = 0; i < count; i++) {
-    data[i]={position: i, weight: weights[_random(weights.length)], symbol: symbols[_random(symbols.length)] };
+  const data = ELEMENT_DATA;
+  for (let i = ELEMENT_DATA.length; i < count; i++) {
+    data[i]={position: i + 1, weight: weights[_random(weights.length)], symbol: symbols[_random(symbols.length)] };
   }
   return data;
 }

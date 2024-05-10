@@ -1,17 +1,35 @@
+:host {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+}
+
 .col-md-6 {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
+.table {
+  width: 400px;
+}
+
 .table--padding {
   padding-bottom: 20px;
 }
 
+tr {
+  height: 32px;
+}
+
 .btn-primary {
+  border-radius: 4px;
+  border: 1px solid;
   height: 40px;
+  width: 160px;
 }
 
 .clear__btn {
   background-color: bisque;
+  width: 100px;
 }

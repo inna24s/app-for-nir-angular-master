@@ -1,9 +1,18 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  background-color: floralwhite;
-  padding: 24px;
+  gap: 4px;
+  padding: 24px 8px;
+}
+
+.container div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.container div mat-form-field {
+  width: 250px;
 }
 
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__leading,
@@ -14,4 +23,24 @@
 
 .inp--padding {
   padding: 6px;
+}
+
+.send {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 250px;
+}
+
+.send__btn {
+  width: 120px;
+  height: 32px;
+  background: lightgreen;
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+.disabled {
+  background: lightgray;
+  color: gray;
 }

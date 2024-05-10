@@ -8,9 +8,10 @@ import {FormComponent} from "./form/form.component";
 import {MatInputModule} from "@angular/material/input";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {MatIcon} from "@angular/material/icon";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
-  imports: [MatTableModule, MatButtonModule, BrowserModule, MatInputModule, MatIcon],
+    imports: [MatTableModule, MatButtonModule, BrowserModule, MatInputModule, MatIcon, FormsModule],
   declarations: [AppComponent, TableComponent, FormComponent],
   bootstrap: [AppComponent],
   providers: [provideAnimations()]

@@ -1,52 +1,65 @@
 import {Injectable} from "@angular/core";
 import {PeriodicElement} from "../../../../server/mock";
+import axios from "axios";
 
 @Injectable({ providedIn: "root" })
 export class ClientService {
-  async getBigTable(count?: number): Promise<PeriodicElement[]> {
-    try {
-      return await this.fetchMethod("get", "getTable", { count });
-    } catch (e) {
-      console.error(e);
-      return [];
-    }
-  }
+  HEADERS = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
 
-  async getData(): Promise<PeriodicElement[]> {
-    try {
-      return await this.fetchMethod("get", "getTable");
-    } catch (e) {
-      console.error(e);
-      return [];
-    }
-  }
+  // URL = `https://e7205ef3-4d9a-44c4-a4ae-6e73be13a39f-00-2f6q3y0g5jhhc.sisko.replit.dev/`;
+URL = `http://localhost:3000/`;
 
-  fetchMethod(method: "get" | "post", path: string, options: Record<string, any> = {}) {
-    const query = Object.keys(options).reduce((acc, key) => {
-      acc.push(`${key}=${encodeURIComponent(options[key])}`);
-      return acc;
-    }, [] as string[]).join("&");
-    const request: RequestInit = {
-      method,
-      cache: "no-cache",
-      credentials: "same-origin",
-      redirect: "follow",
-      referrer: "no-referrer",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Accept-Encoding": "gzip, compress, br",
+  async getBigTable(count: number): Promise<PeriodicElement[]> {
+    let res = await axios.get(this.URL + `getTable`, {
+      params: {
+        count: count,
       },
-    };
-    console.log(`http://localhost:3000/${path}?${query}`);
-
-    try {
-      return fetch(`http://localhost:3000/${path}?${query}`, request).then((response) => {
-        return response.json()
+      headers: this.HEADERS
+    });
+    return res.data;
+  };
+  async addData(count: number): Promise<PeriodicElement[]> {
+    let res = await axios.get(this.URL + `add`, {
+      params: {
+        count: count,
+      },
+      headers: this.HEADERS
+    });
+    return res.data;
+  };
+  async updateRow(all: string): Promise<PeriodicElement[]> {
+    let res = await axios.post(this.URL + `updateRow`, {
+        all: all
+      },
+      {
+        headers: this.HEADERS
       });
-    } catch (e) {
-      console.error(e);
-      throw new Error("failed to fetch");
+    return res.data;
+  };
+  async addElement(
+    el: {
+      symbol: string,
+      weight: string
     }
+  ) {
+    let res = await axios.post(this.URL + `createElement`, {
+        symbol: el.symbol,
+        weight: el.weight
+      },
+      {
+        headers: this.HEADERS
+      });
+    return res.data;
+  }
+
+  async clear() {
+    let res = await axios.post(this.URL + `clear`, {},
+      {
+        headers: this.HEADERS
+      });
+    return res.data;
   }
 }

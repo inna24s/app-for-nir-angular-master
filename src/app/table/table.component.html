@@ -1,26 +1,58 @@
-<div class="col-md-6">
-  <div class="col-sm-6 smallpad">
-    <button type="button" class="btn btn-primary btn-block" id="run" (click)="run()" ref="text">Create 1,000 rows</button>
-  </div>
-  <div class="col-sm-6 smallpad">
-    <button type="button" class="btn btn-primary btn-block" id="runlots" (click)="runLots()">Create 10,000 rows</button>
-  </div>
-  <div class="col-sm-6 smallpad">
-    <button type="button" class="btn btn-primary btn-block" id="add" (click)="add()" ref="text">Append 1,000 rows</button>
-  </div>
+<div class="table">
+  <ng-container *ngIf="loading; else table">
+    Loading ...
+  </ng-container>
+
+  <ng-template #table>
+    <table mat-table [dataSource]="data" class="mat-elevation-z8 table--padding" *ngIf="data.length">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> № </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef> Weight </th>
+        <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef> Symbol </th>
+        <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </ng-template>
 </div>
-<div class="col-md-6">
-  <div class="col-sm-6 smallpad">
-    <button type="button" class="btn btn-primary btn-block" id="update" (click)="update()">Update every 5th row</button>
+
+<div class="control-panel">
+  <div class="col-md-6">
+    <div class="col-sm-6 smallpad">
+      <button type="button" class="btn btn-primary btn-block" id="run" (click)="getBigTable(1000)" ref="text">Create 1,000 rows</button>
+    </div>
+    <div class="col-sm-6 smallpad">
+      <button type="button" class="btn btn-primary btn-block" id="runlots" (click)="getBigTable(10000)">Create 10,000 rows</button>
+    </div>
+    <div class="col-sm-6 smallpad">
+      <button type="button" class="btn btn-primary btn-block" id="add" (click)="add()" ref="text">Append 1,000 rows</button>
+    </div>
   </div>
-  <div class="col-sm-6 smallpad">
-    <button type="button" class="btn btn-primary btn-block" id="updateAll" (click)="updateAll()">Update all rows</button>
+  <div class="col-md-6">
+    <div class="col-sm-6 smallpad">
+      <button type="button" class="btn btn-primary btn-block" id="update" (click)="update('5')">Update every 5th row</button>
+    </div>
+    <div class="col-sm-6 smallpad">
+      <button type="button" class="btn btn-primary btn-block" id="updateAll" (click)="update('all')">Update all rows</button>
+    </div>
+    <div class="col-sm-6 smallpad">
+      <button type="button" class="btn btn-primary btn-block" id="swaprows" (click)="swapRows()">Swap Rows</button>
+    </div>
   </div>
-  <div class="col-sm-6 smallpad" *ngIf="data.length > 998">
-    <button type="button" class="btn btn-primary btn-block" id="swaprows" (click)="swapRows()">Swap Rows</button>
-  </div>
-</div>
-<div class="server__btn smallpad">
   <button
     type="button"
     class="clear__btn btn-primary btn-block"
@@ -29,36 +61,5 @@
   >
     x Clear table
   </button>
+  <app-form (createEl)="createEl($event)"></app-form>
 </div>
-
-
-<ng-container *ngIf="loading; else table">
-  Loading ...
-</ng-container>
-
-<ng-template #table>
-  <table mat-table [dataSource]="data" class="mat-elevation-z8 table--padding" *ngIf="data.length">
-
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef> № </th>
-      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-    </ng-container>
-
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef> Weight </th>
-      <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-    </ng-container>
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef> Symbol </th>
-      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</ng-template>
-
