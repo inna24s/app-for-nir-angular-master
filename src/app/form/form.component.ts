@@ -1,10 +1,24 @@
 import {Component, EventEmitter, Output} from "@angular/core";
 import {ClientService} from "../_core/sevice/clientService";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {FormsModule} from "@angular/forms";
+import {MatInput} from "@angular/material/input";
+import {MatButton} from "@angular/material/button";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-form',
   templateUrl: "form.component.html",
-  styleUrls: ["form.component.css"]
+  styleUrls: ["form.component.css"],
+  imports: [
+    MatFormField,
+    MatLabel,
+    FormsModule,
+    MatInput,
+    MatButton,
+    NgClass
+  ],
+  standalone: true
 })
 export class FormComponent {
   @Output()

@@ -1,11 +1,37 @@
 import {Component, Input, OnInit} from "@angular/core";
 import {PeriodicElement} from "../../../server/mock";
 import {ClientService} from "../_core/sevice/clientService";
+import {FormComponent} from "../form/form.component";
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable
+} from "@angular/material/table";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-table',
   templateUrl: "table.component.html",
-  styleUrls: ["table.component.css"]
+  styleUrls: ["table.component.css"],
+  imports: [
+    FormComponent,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCell,
+    MatCell,
+    MatHeaderCellDef,
+    MatCellDef,
+    NgIf,
+    MatHeaderRow,
+    MatRow,
+    MatHeaderRowDef,
+    MatRowDef
+  ],
+  standalone: true
 })
 export class TableComponent implements OnInit {
   data: PeriodicElement[] = [];
