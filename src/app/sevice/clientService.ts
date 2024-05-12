@@ -9,8 +9,8 @@ export class ClientService {
     "Content-Type": "application/json",
   };
 
-  // URL = `https://e7205ef3-4d9a-44c4-a4ae-6e73be13a39f-00-2f6q3y0g5jhhc.sisko.replit.dev/`;
-URL = `http://localhost:3000/`;
+  URL = `https://e7205ef3-4d9a-44c4-a4ae-6e73be13a39f-00-2f6q3y0g5jhhc.sisko.replit.dev/`;
+// URL = `http://localhost:3000/`;
 
   async getBigTable(count: number): Promise<PeriodicElement[]> {
     let res = await axios.get(this.URL + `getTable`, {
