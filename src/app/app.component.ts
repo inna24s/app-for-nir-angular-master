@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TableComponent} from "./table/table.component";
+import {TableComponent} from "./components/table/table.component";
 
 @Component({
   selector: 'app-root',

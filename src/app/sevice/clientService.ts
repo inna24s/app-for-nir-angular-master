@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {PeriodicElement} from "../../../../server/mock";
+import {PeriodicElement} from "../../../server/mock";
 import axios from "axios";
 
 @Injectable({ providedIn: "root" })

@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {PeriodicElement} from "../../../server/mock";
-import {ClientService} from "../_core/sevice/clientService";
+import {Component, OnInit} from "@angular/core";
+import {PeriodicElement} from "../../../../server/mock";
+import {ClientService} from "../../sevice/clientService";
 import {FormComponent} from "../form/form.component";
 import {
   MatCell,
